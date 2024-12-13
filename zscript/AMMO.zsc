@@ -1,0 +1,360 @@
+Class PlasBattery : Ammo
+{
+	default
+	{
+		Inventory.Icon "PLSPA0";
+		Inventory.MaxAmount 15;
+		Ammo.BackpackMaxAmount 15;
+	}
+}
+
+Class ClipSpawner : RandomSpawner replaces Clip
+{
+	default
+	{
+		DropItem "f56n", 255,4;
+		DropItem "s62n", 255,6;
+		DropItem "ThreeFiddy", 255, 1;
+	}
+}
+
+
+		//boolets
+
+
+Class ThreeFiddy : Ammo 
+{
+	default
+	{
+		Inventory.PickupMessage "Got some 357 rounds.";
+		Inventory.MaxAmount 36;
+		Inventory.Amount 3;
+		Ammo.BackpackMaxAmount 72;
+		Ammo.BackpackAmount 6;
+		Inventory.Icon "HICAA0";
+		Tag "357";
+	}
+	States
+	{
+		Spawn:
+		  HICA A -1;
+		  stop;
+	}
+}
+
+Class s62n : Ammo 
+{
+	default
+	{
+		Inventory.PickupMessage "Picked up a magaine of 7.62.";
+		Inventory.Amount 1;
+		Inventory.MaxAmount 40;
+		Ammo.BackpackAmount 1;
+		Ammo.BackpackMaxAmount 80;
+		Inventory.Icon "CLIPA0";
+	}
+	States
+	{
+	  Spawn:
+		CLIP A -1;
+		Stop;
+	}
+}
+
+Class f56n : Ammo 
+{
+	default
+	{
+		Inventory.PickupMessage "Picked up a magazine of 5.56.";
+		Inventory.Amount 1;
+		Ammo.BackpackAmount 2;
+		Inventory.MaxAmount 20;
+		Ammo.BackpackMaxAmount 40;
+		Inventory.Icon "CLIPB0";
+	}
+	states
+	{
+		spawn:
+		  CLIP B -1;
+		  stop;
+	}
+}
+
+
+Class MoarBoolet : CustomInventory Replaces ClipBox
+{
+	Default
+	{
+		Inventory.PickupMessage "Looted a box of various rounds.";
+		Inventory.Amount 50;
+	}
+	States
+	{
+		Spawn:
+		  AMMO A -1;
+	  	  Stop;
+		Pickup:
+		  TNT1 A 0 A_GiveInventory("f56n",2);
+		  TNT1 A 0 A_GiveInventory("s62n",6);
+		  TNT1 A 0 A_GiveInventory("ThreeFiddy",6);
+		  Stop;
+  }
+}
+
+
+		//shells
+
+
+Class Shellsy : CustomInventory replaces Shell
+{
+	default
+	{
+		Inventory.PickupMessage "Picked up a few assorted shotgun shells.";
+	}
+	States
+	{
+		Spawn:
+		  SHEL A -1;
+		  Stop;
+		Pickup:
+		  TNT1 A 0 A_GiveInventory("shell12",4);
+		  TNT1 A 0 A_GiveInventory("shell9",2);
+		  Stop;
+	}
+}
+
+Class Shellbolloxed : CustomInventory Replaces Shellbox
+{
+	default
+	{
+		Inventory.PickupMessage "Looted a box of assorted shotgun shells.";
+	}
+	States
+	{
+		Spawn:
+		  SBOX A -1;
+		  Stop;
+		Pickup:
+		  TNT1 A 0 A_GiveInventory("shell12",16);
+		  TNT1 A 0 A_GiveInventory("shell9",8);
+		  Stop;
+  }	
+}
+
+Class shell12 : Ammo
+{
+	Default
+	{
+		Inventory.MaxAmount 60;
+		Ammo.BackpackAmount 8;
+		Ammo.BackpackMaxAmount 120;
+		Inventory.Icon "SHELA0";
+	}
+}
+
+Class shell9 : Ammo
+{
+	default
+	{
+		Inventory.MaxAmount 32;
+		Ammo.BackpackAmount 4;
+		Ammo.BackpackMaxAmount 64;
+		Inventory.Icon "C4S2G0";
+	}
+}
+
+
+		//powerweapon ammo
+
+
+Class FourtyPM : Ammo replaces RocketAmmo
+{
+	default
+	{
+		Inventory.PickupMessage "Picked up some 40mm programmable munitions.";
+		Inventory.Amount 3;
+		Inventory.MaxAmount 30;
+		Ammo.BackpackAmount 15;
+		Ammo.BackpackMaxAmount 60;
+		Inventory.Icon "40MMA0";
+	}
+	states
+	{
+		spawn:
+		  40MM A -1;
+		  stop;
+	}
+}
+
+Class FourtyBX : FourtyPM replaces RocketBox
+{
+	default
+	{
+		Inventory.PickupMessage "Looted a box of 40mm programmable munitions.";
+		Inventory.Amount 6;
+	}
+	states
+	{
+		spawn:
+		  40BX A -1;
+		  stop;
+	}
+}
+
+Class Cellsy : Ammo replaces Cell
+{
+	default
+	{
+		Inventory.PickupMessage "$GOTCELL";
+		Inventory.Amount 10;
+		Inventory.MaxAmount 150;
+		Ammo.BackpackAmount 10;
+		Ammo.BackpackMaxAmount 300;
+		Inventory.Icon "CELLA0";
+	}
+	States
+	{
+		Spawn:
+		  CELL A -1;
+		  Stop;
+		Pickup:
+		  NULL A 0 A_GiveInventory("FSUCell",1);
+		  stop;
+	}
+}
+
+Class Cellboxy : CustomInventory replaces CellPack
+{
+	default
+	{
+		Inventory.PickupMessage "$GOTCELLBOX";
+		Inventory.Amount 150;
+	}
+	States
+	{
+		Spawn:
+		  CELP A -1;
+		  Stop;
+		Pickup:
+		  NULL A 0 A_GiveInventory("FSUCell",3);
+		  stop;
+	}
+}
+
+Class FSUCell : Ammo
+{
+	default
+	{
+		Inventory.Icon "MRS2A0";
+		Inventory.MaxAmount 6;
+		Ammo.BackpackMaxAmount 12;
+	}
+}
+
+		//whats in your gun
+
+Class FPNumFired : Inventory
+{
+	default
+	{
+		Inventory.MaxAmount 5;
+	}
+}
+
+Class ThreeClippy : Ammo
+{
+	default
+	{
+		Inventory.Icon "REVIA0";
+		Inventory.MaxAmount 6;
+	}
+}
+
+Class HLSTube : Ammo
+{
+	default
+	{
+		Inventory.Icon "DNSPA0";
+		Inventory.MaxAmount 5;
+	}
+}
+
+Class HLSChmb : Inventory
+{
+	default{
+		Inventory.Icon "DNSPA0";
+		Inventory.MaxAmount 1;
+	}
+}
+
+Class SDSLoad : Ammo
+{
+	default
+	{
+		Inventory.Icon "COCPA0";
+		Inventory.MaxAmount 2;
+	}
+}
+
+Class SMGClip : Ammo
+{
+	default{
+		Inventory.MaxAmount 50;
+		Inventory.Icon "RIFAA0";
+	}
+}
+
+Class LMGClip : Ammo
+{
+	default
+	{
+		Inventory.MaxAmount 90;
+		Inventory.Icon "HVMGW0";
+	}
+}
+
+Class LaunCyl : Ammo
+{
+	default
+	{
+		Inventory.Icon "GLMMA0";
+		Inventory.MaxAmount 5;
+	}
+}
+
+
+		//fsug stuff
+
+
+Class FSUTube : Ammo
+{
+	default
+	{
+		Inventory.MaxAmount 6;
+		Inventory.Icon "CHAFA0";
+	}
+}
+
+Class FSUFireStage : Inventory
+{
+	default
+	{
+		Inventory.MaxAmount 6;
+	}
+}
+
+Class FSUNumFired : Inventory
+{
+	default
+	{
+		Inventory.MaxAmount 6;
+	}
+}
+
+Class FSUAltChamb : Inventory //coming soon tm
+{
+	default
+	{
+		Inventory.MaxAmount 24;
+	}
+}

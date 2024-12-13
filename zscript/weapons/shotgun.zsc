@@ -1,0 +1,152 @@
+Class swpshotgun : Weapon replaces Shotgun
+{
+	default
+	{
+		Weapon.AmmoGive 5;
+		Weapon.AmmoGive2 5;
+		Weapon.AmmoType "HLSTube";
+		weapon.ammotype2 "shell12";
+		Tag "$TAG_SWPSG";
+		Inventory.PickupMessage "$GOT_SWPSG";
+		Obituary "$OB_SWPSG";
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
+	}
+	States
+	{
+		Ready:
+		  RSHT A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		  Loop;
+		Deselect:
+		  RSHT A 1 A_Lower(12);
+		  Loop;
+		Select:
+		  RSHT A 1 A_Raise(12);
+		  Loop;
+		Fire:
+		  NULL A 0 A_JumpIfInventory("HLSTube",1,1);
+		  goto Ready;
+		  RSHF B 3 Bright
+		  {
+		  A_GunFlash;
+		  A_TakeInventory("HLSTube",1);
+		  A_StartSound("weapons/dsfire",CHAN_WEAPON,CHANF_OVERLAP);
+		  A_SetPitch (pitch-1.5);
+		  A_Quake(0.6,2,0,1);
+		  A_FireBullets (3,3,6,14,"BulletPuff",FBF_NORANDOM);
+		  A_TakeInventory("HLSChmb",1);
+		  }
+		  RSHF A 3 Bright;
+		  RSHT A 6;
+			1Pump:
+			  NULL A 0 A_JumpIfInventory("HLSTube",1,"ActualPump"); //jump offsets are jank
+			  RSHT BC 2;
+			  RSHT D 1 A_StartSound("weapons/holdopen",CHAN_WEAPON,CHANF_OVERLAP);
+			  RSHT EFGH 1;
+			  RSHT CB 2;
+			  goto Ready;
+				ActualPump:
+				  NULL A 0 A_StartSound("weapons/dspump",CHAN_WEAPON,CHANF_OVERLAP);
+				  RSHT BC 2;
+				  RSHT DEFG 1;
+				  NULL A 0 A_GiveInventory("HLSChmb",1);
+				  RSHT H 1 a_setpitch(pitch+1,spf_interpolate);
+				  RSHT IJKL 1 ;
+				  RSHT D 2 a_setpitch(pitch-1,spf_interpolate);
+				  RSHT CB 2;
+				  Goto Ready;
+		Altfire:
+		  NULL A 0 A_JumpIfInventory("HLSTube",2,1);
+		  goto Ready;
+		  RSHF B 2 Bright
+		  {
+		  A_GunFlash;
+		  A_TakeInventory("HLSTube",1);
+		  A_FireBullets (4.5,4.5,6,15,"BulletPuff",FBF_NORANDOM);
+		  A_SetPitch (pitch-1.5,SPF_INTERPOLATE);
+		  A_Quake(1.2,4,0,1);
+		  A_StartSound("weapons/dsfire",CHAN_WEAPON,CHANF_OVERLAP);
+		  }
+		  RSHF A 1;
+		  RSHF B 2
+		  {
+		  A_TakeInventory("HLSTube",1);
+		  A_FireBullets (4.5,4.5,6,15,"BulletPuff",FBF_NORANDOM);
+		  A_SetPitch (pitch-1.5,SPF_INTERPOLATE);
+		  A_Quake(1.2,4,0,1);
+		  A_TakeInventory("HLSChmb",1);
+		  A_StartSound("weapons/dsfire",CHAN_WEAPON,CHANF_OVERLAP);
+		  }
+		  RSHF A 1;
+		  RSHT A 8 Bright;
+		  NULL A 0 A_JumpIfInventory("HLSTube",2,"2Pump");
+		  NULL A 0 A_JumpIfInventory("HLSTube",1,"1Pump");
+		  RSHT H 1 A_StartSound("weapons/holdopen",CHAN_WEAPON,CHANF_OVERLAP);
+		  RSHT IJ 2;
+		  goto unpump;
+			2Pump:
+			  RSHT BC 2;
+			  RSHT D 3 
+			  {
+			  A_StartSound("weapons/holdopen",CHAN_WEAPON,CHANF_OVERLAP);
+			  A_GiveInventory("HLSChmb",1);
+			  a_setpitch(pitch+2,spf_interpolate);
+			  }
+			  RSHT EFGH 3;
+			  RSHT H 3
+			  {
+			  a_setpitch(pitch-1,spf_interpolate);
+			  A_StartSound("weapons/closechamb",CHAN_WEAPON,CHANF_OVERLAP);
+			  }
+			  RSHT JKLD 1;
+			  RSHT CB 2;
+			  Goto Ready;
+		Reload:
+		  NULL A 0 A_JumpIfInventory("shell12",1,1);
+		  goto Ready;
+		  NULL A 0 A_JumpIfInventory("HLSTube",5,"Ready");
+		  RSHT BCDEFGH 1;
+		  NULL A 0 A_JumpIfInventory("HLSTube",4,"lastload");
+			loadloop:
+			  NULL A 0 A_JumpIfInventory("shell12",1,1);
+			  goto unpump;
+			  RSHT H 6
+			  {
+			  A_TakeInventory("shell12",1);
+			  A_StartSound("coachgun/reload2",CHAN_WEAPON);
+			  A_GiveInventory("HLSTube",1);
+			  }
+			  NULL A 0 A_JumpIfInventory("HLSTube",4,1);
+			  goto loadloop;
+			  NULL A 0 A_JumpIfInventory("HLSChmb",1,1);
+			  goto chmbload;
+		lastload:
+		  RSHT H 6
+		  {
+		  A_TakeInventory("shell12",1);
+		  A_StartSound("coachgun/reload2",CHAN_WEAPON);
+		  A_GiveInventory("HLSTube",1);
+		  }
+			unpump:
+			  RSHT CBA 2;
+			  goto Ready;
+		chmbload:
+		  RSHT CB 2;
+		  RSHT A 4
+		  {
+		  A_WeaponOffset(0,60,WOF_INTERPOLATE);
+		  A_StartSound("coachgun/reload2",CHAN_WEAPON);
+		  A_GiveInventory("HLSTube",1);
+		  }
+		  RSHT A 8 A_StartSound("weapons/closechamb",CHAN_WEAPON);
+		  goto ready;
+		Flash:
+		  TNT1 A 2 A_Light1;
+		  TNT1 A 2 A_Light2;
+		  Goto LightDone;
+		Spawn:
+		  RTGR A -1;
+		  Stop;
+	}
+}

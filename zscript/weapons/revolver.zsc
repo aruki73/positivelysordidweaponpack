@@ -1,0 +1,97 @@
+Class swprevolver : weapon
+{
+	default
+	{
+		Scale 0.32;
+		//$Category Weapons
+		obituary "$OB_SWPREV";
+		attacksound "Weapons/GLOKFIR";
+		Weapon.SlotNumber 2;
+		weapon.kickback 50;
+		inventory.pickupmessage "$GOT_SWPREV";
+		weapon.ammotype "ThreeClippy";
+		weapon.ammotype2 "ThreeFiddy";
+		weapon.ammogive 6;
+		weapon.ammogive2 6;
+		weapon.ammouse 1;
+		tag "$TAG_SWPREV";
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
+	}
+	states
+	{
+			Ready:
+			  REVO A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+			  loop;
+			Deselect: 
+			  REVO A 1 A_Lower(12);
+			  loop;
+			Select:
+			  REVO A 1 A_Raise(12);
+			  loop;
+			Fire:
+			  REVO A 3 A_JumpIfInventory("ThreeClippy",1,2);
+			  NULL A 0 A_StartSound("weapons/revdry",CHAN_WEAPON);
+			  goto Ready;
+			  NULL A 0 A_GunFlash;
+			  REVF A 1 Bright 
+			  {
+			  A_FireBullets(3,3,1,100,"BoomPuff",1|FBF_NORANDOM);
+			  A_Quake (2, 2, 0, 1);
+			  A_SetPitch (pitch-2.5);
+			  }
+			  REVO BCDDCB 2;
+			  Goto Ready;
+			Altfire:
+			  NULL A 0 A_JumpIfInventory("ThreeClippy",1,1);
+			  goto Ready;
+					altfireloop:
+					  NULL A 0 A_GunFlash;
+					  REVF A 1 Bright 
+					  {
+					  A_FireBullets(3,3,1,100,"BoomPuff",1|FBF_NORANDOM);
+					  A_Quake (4, 1, 0, 1);
+					  A_TakeInventory("ThreeClippy",1);
+					  A_SetPitch (pitch-0.5);
+					  }
+					  REVO BCD 1;
+					  NULL A 0 A_JumpIfInventory("ThreeClippy",1,"altfireloop");
+					  REVO DDCBA 3;
+					  goto Ready;
+			Reload:
+			  NULL A 0 A_JumpIfInventory("ThreeFiddy",1,1);
+			  goto Ready;
+			  REVO A 1 A_WeaponOffset(0,60,WOF_INTERPOLATE);
+			  NULL A 0 A_JumpIfInventory("ThreeClippy",6,"Ready");
+			  REVO A 5 A_StartSound("Magnum/Snap",CHAN_WEAPON);
+				loadloop: 
+				  NULL A 0 A_JumpIfInventory("ThreeFiddy",1,1);
+				  goto Clanker;
+				  REVO A 4
+				  {
+				  A_TakeInventory("ThreeFiddy",1);
+				  A_StartSound("coachgun/reload2",CHAN_WEAPON);
+				  A_GiveInventory("ThreeClippy",1);
+				  }
+				  NULL A 0 A_JumpIfInventory("ThreeClippy",6,1);
+				  goto loadloop;
+			Clanker://bombad clanka
+			  REVO A 10 A_StartSound("Magnum/Chamber",CHAN_WEAPON);
+			  goto Ready;
+			Flash:
+			  NULL A 2 bright A_Light1;
+			  NULL A 1 bright A_Light0;
+			  Stop;
+			Spawn:
+			  REVI A -1;
+			  stop;
+  }
+}
+
+Class BoomPuff : BulletPuff
+{
+	default
+	{
+	+EXTREMEDEATH;
+	}
+}

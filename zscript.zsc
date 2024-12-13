@@ -1,0 +1,35 @@
+version 4.13.0
+#include "zscript/AMMO.zsc" //these used to be decorate lumps, hence the oops caps
+#include "zscript/PROJECTL.zsc" //how far ive come since first cobbling this together like five years ago (not very far, its still a mess)
+#include "zscript/weapons/knife.zsc"
+#include "zscript/weapons/fusionpistol.zsc"
+#include "zscript/weapons/revolver.zsc"
+#include "zscript/weapons/sbr.zsc"
+#include "zscript/weapons/lmg.zsc"
+#include "zscript/weapons/shotgun.zsc"
+#include "zscript/weapons/supershotgun.zsc"
+#include "zscript/weapons/launcher.zsc"
+#include "zscript/weapons/plasmagun.zsc"
+#include "zscript/weapons/hackgun.zsc"
+
+Class Cupcake : DoomPlayer //i have no fucking idea why i named it this
+{
+	default{
+		player.jumpz 10;
+		player.startitem "swpsbr";
+		player.startitem "swprevolver";
+		player.startitem "swpknife";
+		player.startitem "ThreeFiddy", 12;
+		player.startitem "ThreeClippy", 6;
+		player.startitem "f56n", 2;
+		player.startitem "SMGClip", 40;
+		player.weaponslot 1, "swpinfipistol", "swpknife";
+		player.weaponslot 2, "swpsbr";
+		player.weaponslot 3, "swpsupershotgun", "swpshotgun";
+		player.weaponslot 4, "swplmg";
+		player.weaponslot 6, "swprevolver";
+		player.weaponslot 5, "swplauncher";
+		player.weaponslot 7, "swplasergun";
+		player.weaponslot 8, "swphackgun";
+	}
+}

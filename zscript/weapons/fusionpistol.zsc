@@ -1,0 +1,74 @@
+Class swpinfipistol : Weapon Replaces Chainsaw
+{
+	default
+	{
+		Scale 0.7;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoUse2 1;
+		Weapon.AmmoGive 15;
+		Weapon.AmmoType "PlasBattery";
+		Inventory.PickupMessage "$GOT_SWPFP";
+		tag "$TAG_SWPFP";
+		+WEAPON.AMMO_OPTIONAL;
+		+weapon.alt_ammo_optional;
+		+WEAPON.NOALERT;
+		+WEAPON.NOAUTOFIRE;
+		+WEAPON.ALT_USES_BOTH;
+	}
+	states
+	{
+		Spawn:
+		  PLSP A -1;
+		  loop;
+		Ready:
+		  PLPI A 10 A_WeaponReady(WRF_ALLOWRELOAD);
+		  loop;
+		Deselect:
+		  NULL A 0 A_GiveInventory("PlasBattery",1);
+		  PLPI A 1 A_Lower(12);
+		  loop;
+		Select:
+		  PLPI A 1 A_Raise(12);
+		  loop;
+		Fire:
+		  NULL A 0 A_JumpIfInventory("PlasBattery",1,1);
+		  goto Ready;
+		  PLPI B 1;
+		  PLPI C 1 
+		  {
+		  A_FireProjectile("FPBall");
+		  A_StartSound("weapons/fpprimary",CHAN_WEAPON);
+		  }
+		  PLPI BA 1;
+		  NULL A 0 A_ReFire;
+		  goto Ready;
+		Altfire:
+		  NULL A 0 A_JumpIfInventory("PlasBattery",1,1);
+		  goto Ready;
+			fireloop:
+			  NULL A 0 A_JumpIfInventory("PlasBattery",1,1);
+			  goto altdone;
+			  NULL A 0 A_JumpIfInventory("FPNumFired",5,"altdone");
+			  PLPI A 0 
+			  {
+			  A_FireProjectile("FPBall",Random(-5,5),1,0,0,0,Random(-5,5));
+			  A_GiveInventory("FPNumFired",1);
+			  }
+			  goto fireloop;
+				altdone:
+				  PLPI B 2 
+				  {
+				  A_TakeInventory("FPNumFired",5);
+				  A_StartSound("weapons/plasmaf",CHAN_WEAPON);
+				  }
+				  PLPI A 12;
+				  PLPI A 4 A_StartSound("weapons/fpaltend",CHAN_WEAPON,CHANF_OVERLAP);
+				  goto Ready;
+		Reload:
+		  NULL A 0 A_JumpIfInventory("PlasBattery",25,"Ready");
+		  PLPI ABB 1;
+		  NULL A 0 A_StartSound("weapons/fpcharge",CHAN_WEAPON);
+		  NULL A 0 a_giveinventory("PlasBattery",1);
+		  goto Ready;
+	}
+}

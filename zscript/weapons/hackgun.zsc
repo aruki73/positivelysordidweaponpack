@@ -1,0 +1,113 @@
+class swphackgun : Weapon replaces BFG9000
+{
+	default
+	{
+		radius 20;
+		height 16;
+		Weapon.AmmoUse 0;
+		Weapon.AmmoUse2 0;
+		Weapon.AmmoType "FSUTube";
+		Weapon.AmmoType2 "FSUCell";
+		Weapon.AmmoGive 6;
+		Weapon.AmmoGive2 6;
+		inventory.pickupmessage "$GOT_SWPHCK";
+		tag "$TAG_SWPHCK";
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
+		+weapon.bfg;
+	}
+	states
+	{
+		Ready:
+		  CHAN A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		  loop;
+		Deselect: 
+		  CHAN A 1 A_Lower(12);
+		  loop;
+		Select:
+		  CHAN A 1 A_Raise(12);
+		  loop;
+		Fire:
+		  NULL A 0 A_JumpIfInventory("FSUTube",1,1);
+		  goto Ready;
+		  NULL A 0 A_StartSound("weapons/ChanFire",CHAN_WEAPON,CHANF_DEFAULT,0.6);
+		  NULL A 0 A_Quake(0.5,2,0,1);
+		  CHAN A 5 A_WeaponOffset(0,36,WOF_INTERPOLATE);
+		  NULL A 0 A_Quake(1,2,0,1);
+		  CHAN A 5 A_WeaponOffset(0,32,WOF_INTERPOLATE);
+		  NULL A 0 A_Quake(1.5,2,0,1);
+		  CHAN A 4 A_WeaponOffset(0,36,WOF_INTERPOLATE);
+		  NULL A 0 A_Quake(2,2,0,1);
+		  CHAN A 4 A_WeaponOffset(0,32);
+		  NULL A 0 A_Quake(2,2,0,1);
+			FireLoop:
+			  NULL A 0 A_JumpIfInventory("FSUTube",1,1);
+			  goto FireStager;
+			  NULL A 0 A_JumpIfInventory("FSUFireStage",6,"FireStager");
+			  CHAN A 4
+			  {
+			  A_StartSound("weapons/fpcharge",CHAN_5);
+			  A_WeaponOffset(0,36,WOF_INTERPOLATE);
+			  A_Quake(2,2,0,1);
+			  }
+			  CHAN A 4 
+			  {
+			  A_WeaponOffset(0,32,WOF_INTERPOLATE);
+			  A_Quake(2,2,0,1);
+			  A_TakeInventory("FSUTube",1);
+			  A_GiveInventory("FSUFireStage",1);
+			  }
+			  CHAN A 2 A_Refire("FireLoop");
+				FireStager:
+				  NULL A 0 
+				  {
+				  A_GiveInventory("FSUNumFired",1);
+				  A_TakeInventory("FSUFireStage",1);
+				  }
+				  NULL AAAAAAAA 0 A_FireProjectile("FSUBall",Random(-15,15),0,0,0,0,FRandom(-3.5,3.5));
+				  NULL A 0 A_JumpIfInventory("FSUFireStage",1,"FireStager");
+				  NULL A 0
+				  {
+				  A_StartSound("weapons/FSUFire",CHAN_WEAPON);
+				  A_Quake(6,2,0,1);
+				  }
+					PitchMod:
+					  NULL A 0
+					  {
+					  A_SetPitch(pitch-5,SPF_INTERPOLATE);
+					  A_TakeInventory("FSUNumFired",1);
+					  }
+					  NULL A 0 A_JumpIfInventory("FSUNumFired",1,"PitchMod");
+					  CHAN A 30;
+					  goto Ready;
+		Reload:
+		  NULL A 0 A_JumpIfInventory("FSUCell",1,1);
+		  goto Ready;
+		  CHAN A 1 A_WeaponOffset(0,60,WOF_INTERPOLATE);
+		  CHAN A 10 A_StartSound("coachgun/reload1",CHAN_WEAPON);
+		  NULL A 0 A_JumpIfInventory("FSUTube",6,"Pumper");
+			loadloop:
+			  NULL A 0 A_JumpIfInventory("FSUCell",1,1);
+			  goto Pumper;
+			  CHAN A 6
+			  {
+			  A_TakeInventory("FSUCell",1);
+			  A_StartSound("weapons/glockin",CHAN_WEAPON);
+			  A_GiveInventory("FSUTube",1);
+			  }
+			  NULL A 0 A_JumpIfInventory("FSUTube",6,1);
+			  goto loadloop;
+		Pumper:
+		  CHAN A 30 A_StartSound("weapons/dspump",CHAN_WEAPON);
+		  goto Ready;
+		Flash:
+		  TNT1 A 1 bright A_Light1;
+		  TNT1 A 1 bright A_Light2;
+		  TNT1 A 0 bright A_Light0;
+		  stop;
+		Spawn:
+		  CHAF A -1;
+		  Stop;
+	}
+}

@@ -1,0 +1,68 @@
+Class swpknife : weapon replaces Fist
+{
+	Default
+	{
+		Weapon.Kickback 100;
+		+WEAPON.MELEEWEAPON;
+		+WEAPON.NOALERT;
+		Inventory.PickupMessage "$GOT_SWPKNF";
+		Obituary "$OB_SWPKNF";
+		tag "$TAG_SWPKNF";
+	}
+	States
+	{
+		Spawn:
+		  KNFE A -1;
+		  loop;
+		Ready:
+		  KNFG A 1 A_WeaponReady;
+		  loop;
+		Deselect:
+		  KNFG A 1 A_Lower(12);
+		  loop;
+		Select: 
+	 	  KNFG A 1 A_Raise(12);
+		  loop;
+		Fire:
+		  KNFG B 2 A_JumpIfInventory("PowerStrength",1,"Fire2");
+		  KNFG C 4 A_CustomPunch (20,1,CPF_NOTURN,"KnifePuff");
+		  KNFG D 2;
+		  KNFG E 2;
+		  KNFG F 2;
+		  KNFG E 2;
+		  KNFG D 2;
+		  KNFG A 2 A_ReFire;
+		  goto Ready;
+		Fire2:
+		  KNFG C 4 A_CustomPunch (200,1,CPF_NOTURN,"KnifePuff");
+		  KNFG D 2;
+		  KNFG E 2;
+		  KNFG F 2;
+		  KNFG E 2;
+		  KNFG D 2;
+		  KNFG A 2 A_ReFire("Fire");
+		  goto ready;
+	}
+}
+
+Class KnifePuff : Actor
+{
+	default
+	{
+		+NOEXTREMEDEATH;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+PUFFONACTORS;
+		Alpha 0.6;
+		SeeSound "KnifeHitThing";
+		AttackSound "KnifeHitWall";
+		ActiveSound "KnifeMiss";
+		VSpeed 1;
+	}
+	States
+	{
+		Spawn:
+		  PUFF ABCD 4;
+		  Stop;
+	}
+}

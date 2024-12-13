@@ -1,0 +1,87 @@
+Class swplauncher : Weapon Replaces RocketLauncher
+{
+	default
+	{
+		Tag "$TAG_SWPLAU";
+		Weapon.AmmoGive 5;
+		weapon.ammogive2 5;
+		Weapon.AmmoType2 "FourtyPM";
+		Weapon.AmmoType "LaunCyl";
+		Inventory.PickupMessage "$GOT_SWPLAU";
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
+		+weapon.explosive;
+	}
+	States
+	{
+		Ready:
+		  RGLG B 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		  Loop;
+		Deselect:
+		  RGLG B 1 A_Lower(12);
+		  Loop;
+		Select:
+		  RGLG B 1 A_Raise(12);
+		  Loop;
+		Fire:
+		  NULL A 0 A_JumpIfInventory("LaunCyl",1,1);
+		  goto Ready;
+		  NULL A 0 A_TakeInventory("LaunCyl",1);
+		  RGLF B 0 Bright A_StartSound("HellStorm/Fire",CHAN_WEAPON);
+		  RGLF B 1 Bright A_FireProjectile("HellStormRocket",0,0);
+		  RGLF C 1;
+		  RGLG BCDA 2;
+		  Goto Ready;
+		Altfire:
+		  NULL A 0 A_JumpIfInventory("LaunCyl",1,1);
+		  goto Ready;
+		  NULL A 0 A_TakeInventory("LaunCyl",1);
+		  RGLF B 0 Bright A_StartSound("HellStorm/Fire",CHAN_WEAPON);
+		  RGLF B 5 Bright A_FireProjectile("HellstormGrenade",0,0);
+		  RGLF C 3;
+		  RGLG BCDA 2;
+		  Goto Ready;	
+		Reload:
+		  NULL A 0 A_JumpIfInventory("FourtyPM",1,1);
+		  goto Ready;
+		  RGLG A 1 A_WeaponOffset(0,60,WOF_INTERPOLATE);
+		  NULL A 0 A_JumpIfInventory("LaunCyl",5,"Ready");
+		  NULL A 0 A_JumpIfInventory("LaunCyl",4,"oneloader");
+		  NULL A 0 A_JumpIfInventory("LaunCyl",3,"twoloader");
+		  NULL A 0 A_JumpIfInventory("LaunCyl",2,"threeloader");
+		  NULL A 0 A_JumpIfInventory("LaunCyl",1,"fourloader");
+				fiveloader:
+				  NULL A 0 A_JumpIfInventory("FourtyPM",5,1);
+				  goto fourloader;
+				  NULL A 0 A_TakeInventory("FourtyPM",1);
+				  NULL A 0 A_StartSound("weapons/glockin",CHAN_WEAPON);
+				  RGLG A 10 A_GiveInventory("LaunCyl",1);
+					fourloader:
+					  NULL A 0 A_JumpIfInventory("FourtyPM",4,1);
+					  goto threeloader;
+					  NULL A 0 A_TakeInventory("FourtyPM",1);
+					  NULL A 0 A_StartSound("weapons/glockin",CHAN_WEAPON);
+					  RGLG B 10 A_GiveInventory("LaunCyl",1);
+						threeloader:
+						  NULL A 0 A_JumpIfInventory("FourtyPM",3,1);
+						  goto twoloader;
+						  NULL A 0 A_TakeInventory("FourtyPM",1);
+						  NULL A 0 A_StartSound("weapons/glockin",CHAN_WEAPON);
+						  RGLG C 10 A_GiveInventory("LaunCyl",1);
+							twoloader:
+							  NULL A 0 A_JumpIfInventory("FourtyPM",2,1);
+							  goto oneloader;
+							  NULL A 0 A_TakeInventory("FourtyPM",1);
+							  NULL A 0 A_StartSound("weapons/glockin",CHAN_WEAPON);
+							  RGLG D 10 A_GiveInventory("LaunCyl",1);
+								oneloader:
+								  NULL A 0 A_TakeInventory("FourtyPM",1);
+								  NULL A 0 A_StartSound("weapons/glockin",CHAN_WEAPON);
+								  RGLG A 10 A_GiveInventory("LaunCyl",1);
+		  goto Ready;
+		Spawn:
+		  GLMM A -1;
+		  Stop;
+	}
+}

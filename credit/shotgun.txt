@@ -1,0 +1,7 @@
+Code: Resident (unused)
+ZScript: Nomi
+GLDefs: Resident (unused)
+Sounds: id Software, Ryan Williams
+Sprites: TSF/TypicalSonicFan, id Software, Melodica (tracer texture), HorrorMovieRei (tracer model)
+Sprite Edit: Resident (muzzle flash edits, pickup sprite edit), Devloek (ammo and alternate loading edits)
+Idea Base: Shotgun from the Halo games, the real-life Benelli M3, Unreal's Flak Cannon

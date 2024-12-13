@@ -1,0 +1,48 @@
+[default]
+
+TAG_SWPKNF = "Cool Ass Knife, Right?";
+GOT_SWPKNF = 
+"you know what's going on here, dont you? you just wanted to see me suffer. "
+"not that i know that youre doing this right now, but the psychic damage has already been done.";
+OB_SWPKNF = "%o was kicked from the clan by %k's sick knife tricks.";
+
+TAG_SWPFP = "Fusion Pistol";
+GOT_SWPFP = "Picked up a Fusion Pistol.";
+OB_SWPFP = "%o was embarrased by %k.";
+
+TAG_SWPREV = "Revolver";
+GOT_SWPREV = "stop dropping your weapons you dolt";
+OB_SWPREV = "%o had their lung blown out of their body by %k's .45 revolver.";
+
+TAG_SWPSG = "Pump-action";
+GOT_SWPSG = "Picked up a short-barreled pump-action shotgun.";
+OB_SWPSG = "%o was subject to %k's non-euclidean wrath.";
+
+TAG_SWPSSG = "Super Duper Shotgun";
+GOT_SWPSSG = "Picked up a Super Duper Shotgun";
+OB_SWPSSG = "%o got up on %k's porch and got two BLAAESTS."; //cant believe biden is a fudd.. :((
+
+TAG_SWPSBR = "SBR";
+GOT_SWPSBR =
+"Picked up an integrally supressed SBR. yeah, this was meant to be a pickup at one point. "
+"that sucked, so i made it a starting weapon. "
+"also stop dropping your weapons you gormless freak.";
+OB_SWPSBR = "%o was stricken by %k's ATF non-compliance.";
+
+TAG_SWPLMG = "Light-Machinegun";
+GOT_SWPLMG = "Picked up an entire, whole ass, light machinegun.";
+OB_SWPLMG = "%o was perforated by %k's high capacity assault weapon.";
+
+TAG_SWPLAU = "Hybrid Launcher";
+GOT_SWPLAU = "Picked up a Hybrid Launcher. Time to cheese some lowering floor ambushes!";
+OB_SWPLAU = "%o could not deal with %k's Hybrid Launcher. "
+"understandable. "
+"why the fuck are you deathmatching with this mod anyway";
+
+TAG_SWPLAS = "Nondescript Energy Weapon";
+GOT_SWPLAS = "Picked up a nondescript energy throwing doohickey.";
+OB_SWPLAS = "%o was schooled by %k in the workings of the ripper tag.";
+
+TAG_SWPHCK = "FSUG";
+GOT_SWPHCK = "Fuck Shit Up Gun. Go, my boy, and kill.";
+OB_SWPHCK = "%o had their Fuck Shitted by %k."; //Machine,

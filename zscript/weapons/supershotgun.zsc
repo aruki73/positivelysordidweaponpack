@@ -1,0 +1,91 @@
+class swpsupershotgun : Weapon Replaces SuperShotgun
+{
+	default
+	{
+		Weapon.AmmoGive 2;
+		Weapon.AmmoGive2 6;
+		Weapon.AmmoType2 "shell9";
+		Weapon.AmmoType "SDSLoad";
+		Decal "BulletChip";
+		Inventory.PickupMessage "$GOT_SWPSSG";
+		Obituary "$OB_SWPSSG";
+		tag "$TAG_SWPSSG";
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOAUTOFIRE;
+	}
+	States
+	{
+		Ready:
+		  COCH A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		  Loop;
+		Deselect:
+		  COCH A 1 A_Lower(12);
+		  Loop;
+		Select:
+		  COCH A 1 A_Raise(12);
+		  Loop;
+		Fire:
+		  NULL A 0 A_JumpIfInventory("SDSLoad",1,1);
+		  goto Ready;
+		  COCH B 1 bright 
+		  {
+		  A_FireBullets (6, 6, 15, 16, "BulletPuff",FBF_NORANDOM);
+		  A_Quake (3, 2, 0, 1);
+		  A_StartSound ("coachgun/fire",CHAN_WEAPON,CHANF_OVERLAP);
+		  A_TakeInventory("SDSLoad",1);
+		  A_Gunflash;
+          A_SetPitch (pitch-4);
+		  }
+		  COCH BD 1;
+		  COCH A 10;
+		  goto Ready;
+		Altfire:
+		  NULL A 0 A_JumpIfInventory("SDSLoad",2,1);
+		  goto Fire;
+		  COCH B 1 bright 
+		  {
+		  A_FireBullets (12, 6, 30, 16, "BulletPuff",FBF_NORANDOM);
+		  A_Quake (10, 2, 0, 1);
+		  A_StartSound ("coachgun/fire",CHAN_WEAPON,CHANF_OVERLAP);
+		  A_TakeInventory("SDSLoad",2);
+		  A_Gunflash;
+		  A_SetPitch (pitch-10);
+		  }
+		  COCH CD 1;
+		  COCH AAAAAAAAAA 2;
+		  goto Ready;
+		Reload:
+		  NULL A 0 A_JumpIfInventory("SDSLoad",2,"Ready");
+		  NULL A 0 A_JumpIfInventory("SDSLoad",1,"Refunder");
+		  goto Loader;
+			Refunder:
+			  NULL A 0 A_TakeInventory("SDSLoad",1);
+			  NULL A 0 A_GiveInventory("shell9",1);
+				Loader:
+				  NULL A 0 A_JumpIfInventory("shell9",2,1);
+				  goto Ready;
+				  NULL A 0 A_TakeInventory("shell9",2);
+				  COCH EFG 2;
+				  COCH H 2 A_StartSound ("coachgun/reload1",CHAN_WEAPON,CHANF_OVERLAP);
+				  COCH I 2;
+				  COCH J 10;
+				  COCH KLMNO 1;
+				  COCH P 4 A_StartSound ("coachgun/reload2",CHAN_WEAPON,CHANF_OVERLAP);
+				  NULL A 0 A_GiveInventory("SDSLoad",2);
+				  COCH QRSTU 1;
+				  COCH V 7;
+				  COCH W 2;
+				  COCH X 2 A_StartSound ("coachgun/reload3",CHAN_WEAPON,CHANF_OVERLAP);
+				  COCH GFE 2;
+				  COCH A 6 A_Refire;
+				  Goto Ready;
+		Flash:
+		  TNT1 A 4 Bright A_Light1;
+		  TNT1 A 3 Bright A_Light2;
+		  Goto LightDone;
+		Spawn:
+		  COCP A -1;
+		  Stop;
+	}
+}

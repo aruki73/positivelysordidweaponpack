@@ -1,0 +1,67 @@
+weapons/fpcharge TSLAEND
+weapons/fpaltend DSSLSHOT
+weapons/fpprimary TSLAFIR
+
+//Glock 21 sounds that i use for pretty much everything
+weapons/glockfire GLOKFIRE
+weapons/revdry GLOKDRY
+weapons/dry DRYFIRE
+weapons/glockout GLOKOUT
+weapons/glockin	GLOKIN
+
+//Maggnim
+Weapons/GLOKFIR  PFIRE_01
+Magnum/Chamber CHAMB
+Magnum/Snap SNAP
+
+//Mgun
+MGun/Fire	DSMGUN
+
+//Duki
+DSSGBOO1	DSSGBOO1
+DSSGBOO2	DSSGBOO2
+DSSGBOO3	DSSGBOO3
+weapons/dsfire2 DBPGFIRE
+$random weapons/dsfire	{ DSSGBOO1 DSSGBOO2 DSSGBOO3 }
+weapons/dspump	DSSGPUMP
+weapons/closechamb DSSGCRLS
+weapons/holdopen DSSGHOPN
+
+//Coach
+coachgun/reload1	DSCOCHR1
+coachgun/reload2	DSCOCHR2
+coachgun/reload3	DSCOCHR3
+coachgun/fire		DSCOCHFG
+
+//HMG
+weapons/Machinegun	DSHVYRFL
+
+//HSCannon
+HellStorm/Fire		HSTMFIRE
+40mm/grenfire gfire
+40mm/grenbounce bounce
+
+explode1 explode1
+explode2 explode2
+explode3 explode3
+explode4 explode4
+$RANDOM 40mm/grenexplode { explode1 explode2 explode3 explode4 }
+
+//DLaser
+FIRELASERS LSRFIRE
+$limit weapons/plasmax 0
+
+//hackgun
+TSLPRJC1 TSLPRJC1
+weapons/ChanFire DSCHANNL
+
+weapons/rgunBewm TSLPRJC2
+weapons/FSUFire TSLPRJC1 
+
+//knif
+
+KnifeHitThing		DSKNIFE
+KnifeHitWall		DSKNIFE3	
+KnifeMiss		DSKNIFE2
+
+chainguy/attack DSPISTOL
